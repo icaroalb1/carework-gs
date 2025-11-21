@@ -16,10 +16,6 @@ steps:
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
 
-  - script: |
-      export OPENAI_API_KEY= $(OPENAI_API_KEY)
-    displayName: "Inject API KEY"
-
   - task: Maven@4
     inputs:
       mavenPOMFile: 'pom.xml'
