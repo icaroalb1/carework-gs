@@ -22,7 +22,7 @@ steps:
 
   - task: Maven@4
     inputs:
-      mavenPOMFile: 'pom.xml' # string. Required. Maven POM file. Default: pom.xml.
+      mavenPOMFile: 'pom.xml'
       goals: 'package'
       publishJUnitResults: true # 
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
