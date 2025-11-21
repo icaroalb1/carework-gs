@@ -17,3 +17,4 @@ steps:
       jdkSourceOption: 'PreInstalled'
   - script: |
       java -version 
+      mvn -v
