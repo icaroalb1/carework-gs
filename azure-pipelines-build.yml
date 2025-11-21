@@ -16,9 +16,9 @@ steps:
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
       
-  - script: |
-      export OPENAI_API_KEY=$(OPENAI_API_KEY)
-      printenv
+  # - script: |
+  #     export OPENAI_API_KEY=$(OPENAI_API_KEY)
+  #     printenv
 
   - task: Maven@4
     inputs:
