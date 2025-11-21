@@ -15,3 +15,5 @@ steps:
       versionSpec: '21'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
+  - script: |
+      java -version 
