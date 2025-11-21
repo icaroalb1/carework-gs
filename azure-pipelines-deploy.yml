@@ -8,4 +8,4 @@ resources:
 
 steps:
   - script: |
-      pipeline deploy
+      echo "pipeline deploy"
