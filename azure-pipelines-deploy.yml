@@ -3,7 +3,7 @@ trigger: none
 resources:
   pipelines:
     - pipeline: buildapp
-      source: azure-pipelines-build.yml
+      source: icaroalb1.carework-gs
       trigger: true
 
 steps:
