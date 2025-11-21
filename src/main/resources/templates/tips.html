@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carework Energia - Dicas</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/checkin">Check-in</a>
+    <a href="/tips">Dicas</a>
+    <a href="/report">Relatório</a>
+    <a href="/profile">Perfil</a>
+</nav>
+<div class="container">
+    <h1>Dicas para plantões de energia</h1>
+    <ul id="tipsList">
+        <li th:each="tip : ${tips}" th:text="${tip.title()} + ' - ' + ${tip.description()}"></li>
+    </ul>
+
+    <h2>Nova dica para a rede elétrica</h2>
+    <form id="tipForm">
+        <label>Título</label>
+        <input type="text" name="title" required>
+        <label>Descrição</label>
+        <textarea name="description" required></textarea>
+        <button type="submit">Publicar</button>
+    </form>
+    <p id="tipMessage"></p>
+</div>
+<script>
+    async function refreshTips() {
+        const token = localStorage.getItem('careworkToken');
+        if (!token) {
+            return;
+        }
+        const response = await fetch('/api/tips', {
+            headers: {'X-API-KEY': token}
+        });
+        if (!response.ok) return;
+        const tips = await response.json();
+        const list = document.getElementById('tipsList');
+        list.innerHTML = '';
+        tips.forEach(t => {
+            const li = document.createElement('li');
+            li.textContent = `${t.title} - ${t.description}`;
+            list.appendChild(li);
+        });
+    }
+
+    const form = document.getElementById('tipForm');
+    const message = document.getElementById('tipMessage');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const token = localStorage.getItem('careworkToken');
+        if (!token) {
+            alert('Faça login primeiro.');
+            window.location.href = '/login';
+            return;
+        }
+        const payload = {
+            title: form.title.value,
+            description: form.description.value
+        };
+        const response = await fetch('/api/tips', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-KEY': token
+            },
+            body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+            message.textContent = 'Dica publicada!';
+            form.reset();
+            refreshTips();
+        } else {
+            const error = await response.text();
+            message.textContent = 'Erro: ' + error;
+        }
+    });
+
+    refreshTips();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carework Energia - Perfil</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/checkin">Check-in</a>
+    <a href="/tips">Dicas</a>
+    <a href="/report">Relatório</a>
+    <a href="/profile">Perfil</a>
+</nav>
+<div class="container">
+    <h1>Perfil da especialista de energia</h1>
+    <div th:if="${user != null}">
+        <p>Nome: <span th:text="${user.name()}"></span></p>
+        <p>Email: <span th:text="${user.email()}"></span></p>
+        <p>Time: <span th:text="${user.team()}"></span></p>
+    </div>
+</div>
+</body>
+</html>

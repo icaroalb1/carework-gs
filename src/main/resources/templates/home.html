@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carework Energia - Painel</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/checkin">Check-in</a>
+    <a href="/tips">Dicas</a>
+    <a href="/report">Relatório</a>
+    <a href="/profile">Perfil</a>
+</nav>
+<div class="container">
+    <h1>Bem-vindo ao painel da planta energética</h1>
+    <section>
+        <h2>Check-ins do time operacional</h2>
+        <p th:if="${checkinsCount != null}">Total de check-ins: <strong th:text="${checkinsCount}"></strong></p>
+        
+        <div th:if="${lastCheckin != null}">
+            <h3>Último check-in</h3>
+            <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                <p><strong>Mood:</strong> <span th:text="${lastCheckin.mood()}"></span>/5</p>
+                <p><strong>Stress:</strong> <span th:text="${lastCheckin.stress()}"></span>/5</p>
+                <p><strong>Sono:</strong> <span th:text="${lastCheckin.sleepQuality()}"></span>/5</p>
+                <p><strong>Data:</strong> <span th:text="${#temporals.format(lastCheckin.createdAt(), 'dd/MM/yyyy HH:mm')}"></span></p>
+            </div>
+        </div>
+        
+        <div th:if="${allCheckins != null and !allCheckins.isEmpty()}">
+            <h3>Todos os check-ins</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <thead>
+                    <tr style="background: #e0e0e0;">
+                        <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">ID</th>
+                        <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Data/Hora</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Humor</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Estresse</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #ddd;">Sono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="checkin : ${allCheckins}" style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 8px; border: 1px solid #ddd;" th:text="${checkin.id()}"></td>
+                        <td style="padding: 8px; border: 1px solid #ddd;" th:text="${#temporals.format(checkin.createdAt(), 'dd/MM/yyyy HH:mm')}"></td>
+                        <td style="padding: 8px; text-align: center; border: 1px solid #ddd;" th:text="${checkin.mood()}"></td>
+                        <td style="padding: 8px; text-align: center; border: 1px solid #ddd;" th:text="${checkin.stress()}"></td>
+                        <td style="padding: 8px; text-align: center; border: 1px solid #ddd;" th:text="${checkin.sleepQuality()}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <p th:if="${lastCheckin == null}">Nenhum check-in encontrado.</p>
+    </section>
+    <section>
+        <h2>Mensagem da IA para a equipe de energia</h2>
+        <p th:text="${report != null ? report.aiMessage() : 'Faça um check-in para ver insights voltados à operação energética!'}"></p>
+    </section>
+</div>
+<script>
+    if (!localStorage.getItem('careworkToken')) {
+        console.warn('Token não encontrado, redirecionando para login.');
+        window.location.href = '/login';
+    }
+</script>
+</body>
+</html>

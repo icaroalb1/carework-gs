@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carework Energia - Check-in</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/checkin">Check-in</a>
+    <a href="/tips">Dicas</a>
+    <a href="/report">Relatório</a>
+    <a href="/profile">Perfil</a>
+</nav>
+<div class="container">
+    <h1>Novo check-in do turno</h1>
+    <form id="checkinForm">
+        <input type="hidden" id="userId" th:value="${userId}">
+        <label>Humor (1-5)</label>
+        <input type="number" name="mood" min="1" max="5" required>
+        <label>Estresse (1-5)</label>
+        <input type="number" name="stress" min="1" max="5" required>
+        <label>Qualidade do sono (1-5)</label>
+        <input type="number" name="sleepQuality" min="1" max="5" required>
+        <button type="submit">Enviar leitura de bem-estar</button>
+    </form>
+    <p id="checkinMessage"></p>
+</div>
+<script>
+    const form = document.getElementById('checkinForm');
+    const message = document.getElementById('checkinMessage');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const token = localStorage.getItem('careworkToken');
+        if (!token) {
+            alert('Faça login primeiro.');
+            window.location.href = '/login';
+            return;
+        }
+        const payload = {
+            userId: document.getElementById('userId').value,
+            mood: Number(form.mood.value),
+            stress: Number(form.stress.value),
+            sleepQuality: Number(form.sleepQuality.value)
+        };
+        const response = await fetch('/api/checkins', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-KEY': token
+            },
+            body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+            message.textContent = 'Check-in registrado com sucesso!';
+        } else {
+            const error = await response.text();
+            message.textContent = 'Erro: ' + error;
+        }
+    });
+</script>
+</body>
+</html>

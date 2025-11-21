@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Carework Energia - Login</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Centro de Operações de Energia</h1>
+    <form id="loginForm">
+        <label>Email</label>
+        <input type="email" name="email" required value="marina@carework.energy">
+        <label>Senha</label>
+        <input type="password" name="password" required value="123456">
+        <button type="submit">Entrar</button>
+    </form>
+    <p id="loginMessage"></p>
+</div>
+<script>
+    const form = document.getElementById('loginForm');
+    const message = document.getElementById('loginMessage');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const payload = {
+            email: form.email.value,
+            password: form.password.value
+        };
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('careworkToken', data.token);
+            message.textContent = data.message + " Token aplicado ao monitoramento.";
+            setTimeout(() => window.location.href = '/home', 800);
+        } else {
+            message.textContent = 'Falha no login';
+        }
+    });
+</script>
+</body>
+</html>

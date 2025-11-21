@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Carework Energia - Relatório</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/home">Home</a>
+    <a href="/checkin">Check-in</a>
+    <a href="/tips">Dicas</a>
+    <a href="/report">Relatório</a>
+    <a href="/profile">Perfil</a>
+</nav>
+<div class="container">
+    <h1>Relatório semanal da operação energética</h1>
+    <div th:if="${report != null}">
+        <p>Período: <span th:text="${#temporals.format(report.startDate(), 'dd/MM')} + ' - ' + ${#temporals.format(report.endDate(), 'dd/MM')}"></span></p>
+        <p>Média de humor: <span th:text="${#numbers.formatDecimal(report.averageMood(), 1, 2)}"></span></p>
+        <p>Média de estresse: <span th:text="${#numbers.formatDecimal(report.averageStress(), 1, 2)}"></span></p>
+        <p>Média de sono: <span th:text="${#numbers.formatDecimal(report.averageSleepQuality(), 1, 2)}"></span></p>
+        <p>Mensagem da IA: <strong th:text="${report.aiMessage()}"></strong></p>
+    </div>
+    <p th:if="${report == null}">Nenhum relatório disponível.</p>
+</div>
+</body>
+</html>
