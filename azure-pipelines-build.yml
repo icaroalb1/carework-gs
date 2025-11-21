@@ -10,8 +10,8 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo pipeline build
+  - task: JavaToolInstaller@1
+    inputs:
+      versionSpec: '21'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
