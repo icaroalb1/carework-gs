@@ -15,11 +15,6 @@ steps:
       versionSpec: '21'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
-      
-  - script: |
-      export OPENAI_API_KEY=$(OPENAI_API_KEY)
-      printenv | grep "OPENAI_API_KEY"
-
   - task: Maven@4
     inputs:
       mavenPOMFile: 'pom.xml'
@@ -28,3 +23,6 @@ steps:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'JDKVersion'
       mavenVersionOption: 'Default'
+    env:
+      OPENAI_API_KEY: $(OPENAI_API_KEY)
+    displayName: 'Build with Maven'
