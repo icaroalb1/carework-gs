@@ -1,0 +1,11 @@
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: buildapp
+      source: azure-pipelines-build    
+      trigger: true          
+
+steps:
+  - script: |
+      pipeline deploy
