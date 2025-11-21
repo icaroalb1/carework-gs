@@ -3,8 +3,8 @@ trigger: none
 resources:
   pipelines:
     - pipeline: buildapp
-      source: azure-pipelines-build    
-      trigger: true          
+      source: azure-pipelines-build.yml
+      trigger: true
 
 steps:
   - script: |
