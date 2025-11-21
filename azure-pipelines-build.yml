@@ -15,6 +15,11 @@ steps:
       versionSpec: '21'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
+
+  - script: |
+      export CAREWORK_API_KEY= $(CAREWORK_API_KEY)
+    displayName: "Inject API KEY"
+
   - task: Maven@4
     inputs:
       mavenPOMFile: 'pom.xml' # string. Required. Maven POM file. Default: pom.xml.
