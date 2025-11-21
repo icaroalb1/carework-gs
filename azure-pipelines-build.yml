@@ -15,6 +15,11 @@ steps:
       versionSpec: '21'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
-  - script: |
-      java -version 
-      mvn -v
+  - task: Maven@4
+    inputs:
+      mavenPOMFile: 'pom.xml' # string. Required. Maven POM file. Default: pom.xml.
+      goals: 'package'
+      publishJUnitResults: true # 
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      mavenVersionOption: 'Default'
