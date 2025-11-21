@@ -17,7 +17,7 @@ steps:
       jdkSourceOption: 'PreInstalled'
 
   - script: |
-      export CAREWORK_API_KEY= $(CAREWORK_API_KEY)
+      export OPENAI_API_KEY= $(OPENAI_API_KEY)
     displayName: "Inject API KEY"
 
   - task: Maven@4
