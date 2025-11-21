@@ -17,7 +17,7 @@ steps:
       jdkSourceOption: 'PreInstalled'
       
   - script: |
-      printenv | grep OPENAI
+      printenv | grep "OPENAI"
 
   - task: Maven@4
     inputs:
