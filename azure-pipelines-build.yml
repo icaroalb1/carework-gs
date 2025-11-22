@@ -23,6 +23,11 @@ steps:
       mavenVersionOption: 'Default'
     env:
       OPENAI_API_KEY: $(OPENAI_API_KEY)
+      CAREWORK_API_KEY: $(CAREWORK_API_KEY)
+      CAREWORK_API_BASE_URL: $(CAREWORK_API_BASE_URL)
+      AZURE_DB_URL: $(AZURE_DB_URL)
+      AZURE_DB_USER: $(AZURE_DB_USER)
+      AZURE_DB_PASSWORD: $(AZURE_DB_PASSWORD)
     displayName: 'Build with Maven'
 
   - task: Maven@4
