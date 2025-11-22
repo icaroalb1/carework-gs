@@ -19,10 +19,20 @@ steps:
     inputs:
       mavenPOMFile: 'pom.xml'
       goals: 'package'
-      publishJUnitResults: true # 
-      testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'JDKVersion'
       mavenVersionOption: 'Default'
     env:
       OPENAI_API_KEY: $(OPENAI_API_KEY)
     displayName: 'Build with Maven'
+
+  - task: Maven@4
+    inputs: 
+      mavenPomFile: 'pom.xml'
+      goals: 'test'
+      javaHomeOption: 'JDKVersion'
+      mavenVersionOption: 'Default'
+      publishJUnitResults: true # 
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    env: 
+      OPENAI_API_KEY: $(OPENAI_API_KEY)
+    displayName: 'Test with maven'
