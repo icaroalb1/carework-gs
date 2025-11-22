@@ -20,5 +20,5 @@ steps:
 - task: AzureWebAppContainer@1
   inputs:
     azureSubscription: 'Azure Guilherme(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
-    appName: 'careworkTest'
+    appName: 'carework'
     containers: 'carework.azurecr.io'
