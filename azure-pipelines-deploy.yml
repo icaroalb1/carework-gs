@@ -7,12 +7,18 @@ resources:
       trigger: true
 
 steps:
-- task: AzureRmWebAppDeployment@5
+# - task: AzureRmWebAppDeployment@5
+#   inputs:
+#     ConnectionType: 'AzureRM'
+#     azureSubscription: 'Azure Guilherme(1)(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
+#     appType: 'webAppContainer'
+#     WebAppName: 'Carework'
+#     DockerNamespace: 'carework.azurecr.io'
+#     DockerRepository: 'carework'
+#     DockerImageTag: 'latest'
+
+- task: AzureWebAppContainer@1
   inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure Guilherme(1)(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
-    appType: 'webAppContainer'
-    WebAppName: 'Carework'
-    DockerNamespace: 'carework.azurecr.io'
-    DockerRepository: 'carework'
-    DockerImageTag: 'latest'
+    azureSubscription: 'Azure Guilherme(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
+    appName: 'careworkTest'
+    containers: 'carework.azurecr.io'
