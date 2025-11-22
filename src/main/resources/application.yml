@@ -46,7 +46,7 @@ spring:
 
 carework:
   security:
-    api-key: ${CAREWORK_API_KEY:carework-secret}
+    api-key: ${CAREWORK_API_KEY}
   web:
     api-base-url: ${CAREWORK_API_BASE_URL:http://localhost:8080/api}
   demo:
@@ -69,9 +69,9 @@ spring:
       on-profile: prod
 
   datasource:
-    url: ${AZURE_DB_URL:jdbc:postgresql://example.postgres.database.azure.com:5432/carework}
-    username: ${AZURE_DB_USER:carework}
-    password: ${AZURE_DB_PASSWORD:carework}
+    url: ${AZURE_DB_URL}
+    username: ${AZURE_DB_USER}
+    password: ${AZURE_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -103,4 +103,9 @@ spring:
 
 carework:
   web:
-    api-base-url: ${CAREWORK_API_BASE_URL:https://carework-api.azurewebsites.net/api}
+    api-base-url: ${CAREWORK_API_BASE_URL}
+
+
+
+
+
