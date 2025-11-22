@@ -1,11 +1,13 @@
 spring:
   application:
     name: carework-api-web
+
   datasource:
     url: jdbc:h2:mem:careworkdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
-    password: 
+    password:
     driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,25 +15,34 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+
   h2:
     console:
       enabled: true
+
   thymeleaf:
     cache: false
+
   messages:
     basename: messages
+
   cache:
     cache-names: tips
+
   autoconfigure:
     exclude:
       - org.springframework.cloud.function.context.config.ContextFunctionCatalogAutoConfiguration
+
   ai:
     openai:
       api-key: ${OPENAI_API_KEY:}
+      base-url: https://api.openai.com
       chat:
         options:
           model: gpt-4o-mini
           temperature: 0.7
+          max-tokens: 500
+          timeout: 30s
 
 carework:
   security:
@@ -56,23 +67,40 @@ spring:
   config:
     activate:
       on-profile: prod
+
   datasource:
     url: ${AZURE_DB_URL:jdbc:postgresql://example.postgres.database.azure.com:5432/carework}
     username: ${AZURE_DB_USER:carework}
     password: ${AZURE_DB_PASSWORD:carework}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: none
+
   sql:
     init:
       mode: never
+
   h2:
     console:
       enabled: false
+
   autoconfigure:
     exclude:
       - org.springframework.cloud.function.context.config.ContextFunctionCatalogAutoConfiguration
+
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: https://api.openai.com
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0.7
+          max-tokens: 500
+          timeout: 30s
+
 carework:
   web:
     api-base-url: ${CAREWORK_API_BASE_URL:https://carework-api.azurewebsites.net/api}
