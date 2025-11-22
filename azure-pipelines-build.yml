@@ -40,6 +40,11 @@ steps:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
     env: 
       OPENAI_API_KEY: $(OPENAI_API_KEY)
+      CAREWORK_API_KEY: $(CAREWORK_API_KEY)
+      CAREWORK_API_BASE_URL: $(CAREWORK_API_BASE_URL)
+      AZURE_DB_URL: $(AZURE_DB_URL)
+      AZURE_DB_USER: $(AZURE_DB_USER)
+      AZURE_DB_PASSWORD: $(AZURE_DB_PASSWORD)
     displayName: 'Test with maven'
   - task: Docker@2
     displayName: Build and push image to ACR
