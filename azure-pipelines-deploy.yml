@@ -22,11 +22,11 @@ steps:
     azureSubscription: 'Azure Guilherme(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
     appName: 'carework'
     containers: 'carework.azurecr.io/carework:latest'
-    appSettings: |
-      SPRING_PROFILES_ACTIVE=production
-      OPENAI_API_KEY=$(OPENAI_API_KEY)
-      CAREWORK_API_KEY=$(CAREWORK_API_KEY)
-      CAREWORK_API_BASE_URL=$(CAREWORK_API_BASE_URL)
-      AZURE_DB_URL=$(AZURE_DB_URL)
-      AZURE_DB_USER=$(AZURE_DB_USER)
-      AZURE_DB_PASSWORD=$(AZURE_DB_PASSWORD)
+    # appSettings: |
+    #   SPRING_PROFILES_ACTIVE=production
+    #   OPENAI_API_KEY=$(OPENAI_API_KEY)
+    #   CAREWORK_API_KEY=$(CAREWORK_API_KEY)
+    #   CAREWORK_API_BASE_URL=$(CAREWORK_API_BASE_URL)
+    #   AZURE_DB_URL=$(AZURE_DB_URL)
+    #   AZURE_DB_USER=$(AZURE_DB_USER)
+    #   AZURE_DB_PASSWORD=$(AZURE_DB_PASSWORD)
