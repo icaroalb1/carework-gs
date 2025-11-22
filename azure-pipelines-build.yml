@@ -39,7 +39,7 @@ steps:
   - task: Docker@2
     displayName: Build and push image to ACR
     inputs:
-      containerRegistry: ''
+      containerRegistry: 'ACR-Carework'
       repository: 'carework'
       command: 'buildAndPush'
       Dockerfile: '**/Dockerfile'
