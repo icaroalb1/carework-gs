@@ -63,3 +63,68 @@ steps:
       AZURE_DB_URL: $(AZURE_DB_URL)
       AZURE_DB_USER: $(AZURE_DB_USER)
       AZURE_DB_PASSWORD: $(AZURE_DB_PASSWORD)
+
+  - task: Bash@3
+    displayName: Create and push GitHub tag (semantic increment)
+    inputs:
+      targetType: 'inline'
+      script: |
+        set -euo pipefail
+
+        # Repo URL fornecido pelo pipeline (ex: https://github.com/owner/repo.git)
+        REPO_URI="${BUILD_REPOSITORY_URI:-}"
+        if [ -z "$REPO_URI" ]; then
+          echo "BUILD_REPOSITORY_URI não está disponível."
+          exit 1
+        fi
+
+        if [ -z "${GITHUB_TOKEN:-}" ]; then
+          echo "Variável secreta GITHUB_TOKEN não fornecida. Precisa de permissão para criar tags no repo."
+          exit 1
+        fi
+
+        # Autentica o acesso remoto usando token
+        AUTH_REPO_URI="${REPO_URI/https:\/\//https://${GITHUB_TOKEN}@}"
+
+        echo "Consultando tags remotas em $REPO_URI ..."
+        tags=$(git ls-remote --tags "$AUTH_REPO_URI" 2>/dev/null | awk '{print $2}' | sed 's#refs/tags/##' || true)
+
+        latest=$(echo "$tags" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -t. -k1,1n -k2,2n -k3,3n | tail -n1 || true)
+
+        if [ -z "$latest" ]; then
+          next="0.0.1"
+        else
+          IFS='.' read -r a b c <<< "$latest"
+          a=${a:-0}; b=${b:-0}; c=${c:-0}
+          c=$((c + 1))
+          if [ "$c" -gt 9 ]; then
+            c=0
+            b=$((b + 1))
+            if [ "$b" -gt 9 ]; then
+              b=0
+              a=$((a + 1))
+            fi
+          fi
+          next="$a.$b.$c"
+        fi
+
+        echo "Última tag numérica: ${latest:-<nenhuma>}"
+        echo "Próxima tag: $next"
+
+        # garantir usuário git para o CI
+        git config user.email "ci@github.com"
+        git config user.name "ci"
+
+        # cria tag local apontando para o HEAD atual e empurra para o GitHub
+        git tag -a "$next" -m "Release $next"
+        git push "$AUTH_REPO_URI" "refs/tags/$next"
+
+        echo "Tag $next criada e enviada para $REPO_URI"
+    env:
+      GITHUB_TOKEN: $(GITHUB_TOKEN)
+      OPENAI_API_KEY: $(OPENAI_API_KEY)
+      CAREWORK_API_KEY: $(CAREWORK_API_KEY)
+      CAREWORK_API_BASE_URL: $(CAREWORK_API_BASE_URL)
+      AZURE_DB_URL: $(AZURE_DB_URL)
+      AZURE_DB_USER: $(AZURE_DB_USER)
+      AZURE_DB_PASSWORD: $(AZURE_DB_PASSWORD)
