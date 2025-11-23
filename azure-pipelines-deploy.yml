@@ -14,7 +14,7 @@ steps:
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |      
-      az webapp create --name carework --resource-group rg-gs-carework --plan plan-catalog-free --location brazilsouth --deployment-container-image-name carework.azurecr.io/carework:latest
+      az webapp create --name carework --resource-group rg-gs-carework --plan plan-catalog-free --deployment-container-image-name carework.azurecr.io/carework:latest
 
 - task: AzureWebAppContainer@1
   inputs:
