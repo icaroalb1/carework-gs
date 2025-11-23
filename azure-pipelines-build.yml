@@ -55,6 +55,7 @@ steps:
       Dockerfile: '**/Dockerfile'
       tags: |
         latest
+        
     env:
       OPENAI_API_KEY: $(OPENAI_API_KEY)
       CAREWORK_API_KEY: $(CAREWORK_API_KEY)
