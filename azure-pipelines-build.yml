@@ -8,7 +8,7 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-
+ 
 steps:
   - task: JavaToolInstaller@1
     inputs:
