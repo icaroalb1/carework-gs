@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS mood_checkins (
   user_id UUID NOT NULL,
   mood SMALLINT NOT NULL CHECK (mood BETWEEN 1 AND 5),
   stress SMALLINT NOT NULL CHECK (stress BETWEEN 1 AND 5),
+  sleep_quality SMALLINT CHECK (sleep_quality BETWEEN 1 AND 5),
   note TEXT,
   shift VARCHAR(50),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
