@@ -1,0 +1,19 @@
+services:
+  carework:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: carework:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_OPTS=${JAVA_OPTS:-}
+      - CAREWORK_API_KEY=${CAREWORK_API_KEY:-carework-secret}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-}
+      - AZURE_DB_URL=${AZURE_DB_URL:-}
+      - AZURE_DB_USER=${AZURE_DB_USER:-}
+      - AZURE_DB_PASSWORD=${AZURE_DB_PASSWORD:-}
+    volumes:
+      - ./src/main/resources/application-local.yml:/config/application-local.yml:ro
+    restart: always
