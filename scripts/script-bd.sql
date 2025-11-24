@@ -1,7 +1,5 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE IF NOT EXISTS users (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email VARCHAR(255) UNIQUE NOT NULL,
   full_name VARCHAR(255),
   password_hash VARCHAR(512),
@@ -15,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
 CREATE TABLE IF NOT EXISTS tips (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title VARCHAR(255),
   content TEXT NOT NULL,
   author_id UUID,
@@ -27,7 +25,7 @@ CREATE TABLE IF NOT EXISTS tips (
 CREATE INDEX IF NOT EXISTS idx_tips_created_at ON tips(created_at);
 
 CREATE TABLE IF NOT EXISTS mood_checkins (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL,
   mood SMALLINT NOT NULL CHECK (mood BETWEEN 1 AND 5),
   stress SMALLINT NOT NULL CHECK (stress BETWEEN 1 AND 5),
@@ -40,7 +38,7 @@ CREATE TABLE IF NOT EXISTS mood_checkins (
 CREATE INDEX IF NOT EXISTS idx_checkins_user_created_at ON mood_checkins(user_id, created_at);
 
 CREATE TABLE IF NOT EXISTS checkin_event_logs (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   checkin_id UUID,
   event_type VARCHAR(100),
   payload JSONB,
