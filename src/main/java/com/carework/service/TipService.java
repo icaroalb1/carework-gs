@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.UUID;
 import java.util.List;
 
 @Service
@@ -35,7 +35,7 @@ public class TipService {
 
     @Transactional
     @CacheEvict(value = "tips", allEntries = true)
-    public void delete(Long id) {
+    public void delete(UUID id) {
         Tip tip = tipRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dica não encontrada"));
         tipRepository.delete(tip);

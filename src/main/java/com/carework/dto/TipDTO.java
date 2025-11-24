@@ -1,4 +1,5 @@
 package com.carework.dto;
+import java.util.UUID;
 
-public record TipDTO(Long id, String title, String description) {
+public record TipDTO(UUID id, String title, String description) {
 }
