@@ -180,6 +180,12 @@ carework-gs/
 └── README.md                   # Este arquivo
 ```
 
+## 🏗 Arquitetura do Sistema
+
+![Arquitetura do Carework](graph.png)
+
+- Imagem do diagrama: [graph.png](graph.png)
+
 ## 🔌 API REST
 
 ### Autenticação
