@@ -30,6 +30,11 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
     public ApiKeyAuthFilter(String apiKey) {
         this.apiKey = apiKey;
+        // DEBUG: Print no console quando o filtro é criado
+        System.out.println("🔐 === API KEY FILTER CONSTRUÍDO ===");
+        System.out.println("🔐 Chave esperada: '" + apiKey + "'");
+        System.out.println("🔐 Tamanho da chave: " + (apiKey != null ? apiKey.length() : "NULL"));
+        System.out.println("🔐 =================================");
     }
 
     @Override
@@ -44,11 +49,40 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String providedKey = request.getHeader(HEADER_NAME);
+        
+        // DEBUG: Print completo no response
         if (!Objects.equals(apiKey, providedKey)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().write("Invalid API Key");
+            response.setContentType("text/plain");
+            
+            String debugInfo = String.format(
+                "❌ Invalid API Key\n\n" +
+                "📤 CHAVE ENVIADA: '%s'\n" +
+                "📥 CHAVE ESPERADA: '%s'\n\n" +
+                "📏 Tamanho enviado: %d\n" +
+                "📏 Tamanho esperado: %d\n" +
+                "🔤 Header usado: %s\n" +
+                "🌐 URL: %s\n" +
+                "📝 Método: %s",
+                providedKey,
+                apiKey,
+                providedKey != null ? providedKey.length() : 0,
+                apiKey != null ? apiKey.length() : 0,
+                HEADER_NAME,
+                request.getRequestURL(),
+                request.getMethod()
+            );
+            
+            response.getWriter().write(debugInfo);
+            
+            // Também print no console
+            System.out.println("🔐 === FALHA NA VALIDAÇÃO DA API KEY ===");
+            System.out.println(debugInfo);
+            System.out.println("🔐 =====================================");
+            
             return;
         }
+        
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
                         "api-key-client",
