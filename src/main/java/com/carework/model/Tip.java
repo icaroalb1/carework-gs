@@ -16,7 +16,7 @@ public class Tip {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     private String title;
     private String description;

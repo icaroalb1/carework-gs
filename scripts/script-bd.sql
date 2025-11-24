@@ -53,3 +53,18 @@ CREATE TABLE IF NOT EXISTS app_config (
   value TEXT,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+ALTER TABLE public.users
+  RENAME COLUMN full_name TO name;
+
+ALTER TABLE public.users
+  RENAME COLUMN password_hash TO password;
+
+ALTER TABLE public.users
+  ADD COLUMN IF NOT EXISTS team varchar(50);
+
+ALTER TABLE tips
+  RENAME COLUMN content TO description;
+
+ALTER TABLE tips DROP CONSTRAINT IF EXISTS tips_pkey;
+ALTER TABLE tips ALTER COLUMN id TYPE bigint USING (nextval('tips_seq'));
