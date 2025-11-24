@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public interface MoodCheckinRepository extends JpaRepository<MoodCheckin, Long> {
+public interface MoodCheckinRepository extends JpaRepository<MoodCheckin, UUID> {
     boolean existsByUserIdAndCreatedAtBetween(UUID userId, LocalDateTime start, LocalDateTime end);
 
     List<MoodCheckin> findByUserIdOrderByCreatedAtDesc(UUID userId);

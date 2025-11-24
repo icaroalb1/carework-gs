@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record CheckinEvent(
-        Long checkinId,
+        UUID checkinId,
         UUID userId,
         int mood,
         int stress,
