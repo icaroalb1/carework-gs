@@ -15,7 +15,8 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |      
       az webapp create --name carework --resource-group rg-gs-carework --plan plan-catalog-free --deployment-container-image-name carework.azurecr.io/carework:latest
-
+      az webapp config appsettings set --name carework --resource-group rg-gs-carework --settings SPRING_AI_OPENAI_API_KEY="$(OPENAI_API_KEY)" CAREWORK_API_KEY="$(CAREWORK_API_KEY)"
+      
 - task: AzureWebAppContainer@1
   inputs:
     azureSubscription: 'Azure Guilherme(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
