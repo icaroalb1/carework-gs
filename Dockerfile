@@ -11,5 +11,3 @@ COPY --from=builder /workspace/target/carework-api-web-0.0.1-SNAPSHOT.jar app.ja
 ENV JAVA_OPTS=""
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
-
-# seuacrname.azurecr.io/carework:latest
