@@ -7,23 +7,43 @@ resources:
       trigger: true
 
 steps:
-
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Azure Guilherme(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
-    inlineScript: |      
-      az webapp create --name carework --resource-group rg-gs-carework --plan plan-catalog-free --deployment-container-image-name carework.azurecr.io/carework:latest
-      az webapp config appsettings set --name carework --resource-group rg-gs-carework --settings SPRING_AI_OPENAI_API_KEY="$(OPENAI_API_KEY)" CAREWORK_API_KEY="$(CAREWORK_API_KEY)"
+    inlineScript: |
+      # Verifica se o app já existe, se não, cria
+      az webapp list --resource-group rg-gs-carework --query "[?name=='carework'].name" -o tsv
+      if [ $? -ne 0 ]; then
+        echo "Criando Web App..."
+        az webapp create --name carework --resource-group rg-gs-carework --plan plan-catalog-free --deployment-container-image-name carework.azurecr.io/carework:latest
+      else
+        echo "Web App já existe"
+      fi
       
+      # Configura as variáveis de ambiente CRITICAS
+      echo "Configurando variáveis de ambiente..."
+      az webapp config appsettings set \
+        --name carework \
+        --resource-group rg-gs-carework \
+        --settings \
+          SPRING_AI_OPENAI_API_KEY="$(OPENAI_API_KEY)" \
+          CAREWORK_API_KEY="$(CAREWORK_API_KEY)" \
+          SPRING_DATASOURCE_URL="$(AZURE_DB_URL)" \
+          SPRING_DATASOURCE_USERNAME="$(AZURE_DB_USER)" \
+          SPRING_DATASOURCE_PASSWORD="$(AZURE_DB_PASSWORD)" \
+          WEBSITES_PORT=8080
+
 - task: AzureWebAppContainer@1
   inputs:
     azureSubscription: 'Azure Guilherme(bd50eca1-c357-4b10-8ba9-44e38ef8c663)'
     appName: 'carework'
     containers: 'carework.azurecr.io/carework:latest'
-
-
-
-
-    
+    appSettings: |
+      -SPRING_AI_OPENAI_API_KEY $(OPENAI_API_KEY)
+      -CAREWORK_API_KEY $(CAREWORK_API_KEY) 
+      -SPRING_DATASOURCE_URL $(AZURE_DB_URL)
+      -SPRING_DATASOURCE_USERNAME $(AZURE_DB_USER)
+      -SPRING_DATASOURCE_PASSWORD $(AZURE_DB_PASSWORD)
+      -WEBSITES_PORT 8080
