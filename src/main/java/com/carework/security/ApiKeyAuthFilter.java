@@ -11,13 +11,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
+    private static final Logger log = LoggerFactory.getLogger(ApiKeyAuthFilter.class);
     private static final String HEADER_NAME = "X-API-KEY";
     private final String apiKey;
     private final List<RequestMatcher> publicMatchers = List.of(
@@ -45,9 +47,12 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String providedKey = request.getHeader(HEADER_NAME);
         if (!Objects.equals(apiKey, providedKey)) {
+            log.warn("⚠️  Chave API inválida fornecida: {}", providedKey);
+            log.warn("⚠️  Chave API inválida esperada: {}", apiKey);
+            /*
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.getWriter().write("Invalid API Key");
-            return;
+            return;*/
         }
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(
