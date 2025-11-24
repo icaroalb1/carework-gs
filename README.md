@@ -1,5 +1,7 @@
 # 🔋 Carework - Sistema de Gestão de Energia e Bem-estar Operacional
 
+RM556270 - Bianca Vitoria - 2TDSPZ RM555166 - Guilherme Camargo - 2TDSPM RM555131 - Icaro Americo - 2TDSPM
+
 Sistema web completo para monitoramento e gestão do bem-estar de equipes em turnos, com foco em segurança operacional e energia. Desenvolvido com Spring Boot, integra Inteligência Artificial Generativa para fornecer insights personalizados e recomendações baseadas em dados.
 
 ## 📋 Índice
